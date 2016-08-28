@@ -20,6 +20,33 @@
  * Make sure the first answer is the correct one. Set at least 4 answers, any extras will be shuffled in.
  */
 var questions = [];
+var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+
+for (var i = 0; i < numbers.length; i++) {
+  var firstArgument = numbers[i];
+  var question;
+
+  for (var j = i; j < numbers.length; j++) {
+    var secondArgument = numbers[j];
+    var answer = firstArgument * secondArgument;
+    var choices = [answer];
+    var uniqueChoices = [];
+    var question = {};
+
+    choices.push(firstArgument + secondArgument);
+    choices.push(firstArgument * (secondArgument - 1));
+    choices.push(firstArgument * (secondArgument + 1));
+    uniqueChoices = choices.filter(function (choice, position) {
+      return choices.indexOf(choice) === position;
+    });
+    if (uniqueChoices.length < 4) {
+      uniqueChoices.push(firstArgument * (secondArgument + 2));
+    }
+
+    question['What is ' + firstArgument + ' times ' + secondArgument + '?'] = uniqueChoices;
+    questions.push(question);
+  }
+}
 
 // Route the incoming request based on type (LaunchRequest, IntentRequest,
 // etc.) The JSON body of the request is provided in the event parameter.
